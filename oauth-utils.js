@@ -9,7 +9,7 @@ client.registerMethod("oneDriveToken", "https://login.microsoftonline.com/common
 
 module.exports = {
     onedrive: {
-        GetToken: function (id, uri, secret, authCode) {
+        GetToken: function (id, uri, secret, authCode, res, user) {
             var args = {
                 headers: { "content-type": "application/x-www-form-urlencoded" },
                 data: {
@@ -25,6 +25,7 @@ module.exports = {
             client.methods.oneDriveToken(args, function (data, response) {
                 console.log(data);
                 console.log(response);
+                res.send('got code:' + user);
             });
         }
     }
