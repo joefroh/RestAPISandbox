@@ -1,0 +1,16 @@
+To run this code:
+
+1. fork or clone the repository
+2. run npm install on the root directory to pull down all the dependancies
+3. generate a 'secrets.js' file with your app id in password. The code expects the following format:
+    
+    {
+        exampleApi: {
+            id: 'your id here',
+            secret: 'your app secret here'
+        }
+    }
+
+4. node index.js
+
+Enjoy! All feedback is appreciated :)
