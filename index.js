@@ -11,6 +11,10 @@ app.get('/', function (req, res) {
 //register APIs
 onedrive.register(app);
 
+app.get('/currentUser', function (req, res){
+    onedrive.getUserInfo(res);
+});
+
 
 //start server
 app.listen(80, function () {
