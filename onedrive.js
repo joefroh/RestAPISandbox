@@ -5,8 +5,9 @@ var guid = require('guid');
 var quertystring = require('querystring');
 var Client = require('node-rest-client').Client;
 
-var oauthEndpoint = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id={0}&scope=user.read&response_type=code&state={1}&redirect_uri={2}';
+var oauthEndpoint = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id={0}&scope={1}&response_type=code&state={2}&redirect_uri={3}';
 var callback = 'http://localhost/onedrive/callback'
+var scopes = 'user.read' //space delimited list of scopes
 
 var GetToken = function (id, uri, secret, authCode, res, user) {
     var client = new Client();
@@ -39,7 +40,7 @@ var GetToken = function (id, uri, secret, authCode, res, user) {
 module.exports = {
     register: function (app) {
         app.get('/onedrive/auth', function (req, res) {
-            res.redirect(format(oauthEndpoint, secrets.onedrive.id, guid.raw(), encodeURIComponent(callback)));
+            res.redirect(format(oauthEndpoint, secrets.onedrive.id, encodeURIComponent(scopes), guid.raw(), encodeURIComponent(callback)));
         });
 
         app.get('/onedrive/callback', function (req, res) {
