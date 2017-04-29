@@ -2,9 +2,39 @@ var secrets = require('./secrets');
 var oauth_utils = require('./oauth-utils');
 var format = require('string-format');
 var guid = require('guid');
+var quertystring = require('querystring');
+var Client = require('node-rest-client').Client;
 
 var oauthEndpoint = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id={0}&scope=user.read&response_type=code&state={1}&redirect_uri={2}';
 var callback = 'http://localhost/onedrive/callback'
+
+var GetToken = function (id, uri, secret, authCode, res, user) {
+    var client = new Client();
+    client.registerMethod("oneDriveToken", "https://login.microsoftonline.com/common/oauth2/v2.0/token", "POST");
+
+    var args = {
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        data: {
+            client_id: id,
+            redirect_uri: uri,
+            client_secret: secret,
+            code: authCode,
+            grant_type: 'authorization_code'
+        }
+    };
+
+    args.data = quertystring.stringify(args.data);
+    client.methods.oneDriveToken(args, function (data, response) {
+        if (response.statusCode == 200) {
+            var code = data.access_token;
+            res.send('got code for user: ' + user);
+        }
+        else {
+            res.send("error fetching code: " + data);
+        }
+
+    });
+}
 
 module.exports = {
     register: function (app) {
@@ -13,7 +43,7 @@ module.exports = {
         });
 
         app.get('/onedrive/callback', function (req, res) {
-            oauth_utils.onedrive.GetToken(secrets.onedrive.id, callback, secrets.onedrive.secret, req.query.code, res, req.query.state);
+            GetToken(secrets.onedrive.id, callback, secrets.onedrive.secret, req.query.code, res, req.query.state);
         });
     }
 }
