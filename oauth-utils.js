@@ -5,8 +5,6 @@ var client = new Client();
 
 client.registerMethod("oneDriveToken", "https://login.microsoftonline.com/common/oauth2/v2.0/token", "POST");
 
-
-
 module.exports = {
     onedrive: {
         GetToken: function (id, uri, secret, authCode, res, user) {
