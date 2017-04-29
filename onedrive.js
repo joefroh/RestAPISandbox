@@ -47,6 +47,7 @@ var getUserInfo = function (res) {
         return;
     }
 
+    //The following is needed because MSFT hates doing anything even remotely web standard.
     var options = {
         mimetypes: {
             json: ["application/json", "application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8"],
@@ -64,7 +65,7 @@ var getUserInfo = function (res) {
 
     client.methods.fetchCurrentUser(args, function (data, response) {
         if (response.statusCode == 200) {
-            res.send("Hi, " + data.givenName +"!");
+            res.send("Hi, " + data.givenName + "!");
         }
         else {
             res.send("error fetching current user: " + data);
