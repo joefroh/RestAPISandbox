@@ -1,5 +1,4 @@
 var secrets = require('./secrets');
-var oauth_utils = require('./oauth-utils');
 var format = require('string-format');
 var guid = require('guid');
 var quertystring = require('querystring');
