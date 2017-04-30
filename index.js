@@ -2,7 +2,8 @@ var express = require('express');
 var app = express();
 
 //require api modules
-var onedrive = require('./onedrive');
+var onedriveAPI = require('./onedrive');
+var onedrive = new onedriveAPI.OneDrive();
 
 app.get('/', function (req, res) {
     res.send("hello world");
